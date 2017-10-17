@@ -13,7 +13,6 @@ export default class UserInfoPage extends React.Component {
     super(props);
     this.state = {
       users: {},
-      // allIds: [],
       username: this.props.match.params.username,
       repos: {}
     };
@@ -27,8 +26,7 @@ export default class UserInfoPage extends React.Component {
   async getUser(username) {
     const usersObj = await fetchUser(username);
     this.setState(prevState => ({
-      users: { ...prevState.users, [usersObj.login]: usersObj },
-      // allIds: [...prevState.allIds, usersObj.login]
+      users: { ...prevState.users, [usersObj.login]: usersObj }
     }));
 
   }

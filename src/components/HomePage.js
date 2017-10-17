@@ -9,8 +9,7 @@ export default class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: {},
-      // allIds: []
+      users: {}
     };
     this.getUser = this.getUser.bind(this);
     this.listUsers = this.listUsers.bind(this);
@@ -33,8 +32,7 @@ export default class HomePage extends React.Component {
   async getUser(username) {
     const usersObj = await fetchUser(username);
     this.setState(prevState => ({
-      users: { ...prevState.users, [usersObj.login]: usersObj },
-      // allIds: [...prevState.allIds, usersObj.login]
+      users: { ...prevState.users, [usersObj.login]: usersObj }
     }));
   }
   listUsers() {

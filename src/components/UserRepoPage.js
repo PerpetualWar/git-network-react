@@ -13,7 +13,6 @@ export default class UserRepoPage extends React.Component {
     super(props);
     this.state = {
       users: {},
-      // allIds: [],
       repos: {},
       commits: {},
       username: this.props.match.params.username,
@@ -25,13 +24,11 @@ export default class UserRepoPage extends React.Component {
     this.getUser(this.state.username);
     this.getRepos(this.state.username);
     this.getCommits(this.state.username, this.state.repo);
-    // this.sortCommits();
   }
   async getUser(username) {
     const usersObj = await fetchUser(username);
     this.setState(prevState => ({
-      users: { ...prevState.users, [usersObj.login]: usersObj },
-      // allIds: [...prevState.allIds, usersObj.login]
+      users: { ...prevState.users, [usersObj.login]: usersObj }
     }));
   }
   async getRepos(username) {
