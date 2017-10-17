@@ -10,7 +10,7 @@ export default class HomePage extends React.Component {
     super(props);
     this.state = {
       users: {},
-      allIds: []
+      // allIds: []
     };
     this.getUser = this.getUser.bind(this);
     this.listUsers = this.listUsers.bind(this);
@@ -18,7 +18,6 @@ export default class HomePage extends React.Component {
   componentDidMount() {
     users.forEach(obj => {
       this.getUser(obj.username);
-      // console.log(obj.username);
     })
   }
   // getUser(username) {
@@ -35,7 +34,7 @@ export default class HomePage extends React.Component {
     const usersObj = await fetchUser(username);
     this.setState(prevState => ({
       users: { ...prevState.users, [usersObj.login]: usersObj },
-      allIds: [...prevState.allIds, usersObj.login]
+      // allIds: [...prevState.allIds, usersObj.login]
     }));
   }
   listUsers() {

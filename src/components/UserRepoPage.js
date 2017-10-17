@@ -13,45 +13,59 @@ export default class UserRepoPage extends React.Component {
     super(props);
     this.state = {
       users: {},
-      allIds: [],
+      // allIds: [],
       repos: {},
       commits: {},
       username: this.props.match.params.username,
-      repo: this.props.match.params.repo
+      repo: this.props.match.params.repo,
+      sha: []
     };
   }
   componentDidMount() {
     this.getUser(this.state.username);
     this.getRepos(this.state.username);
     this.getCommits(this.state.username, this.state.repo);
+    // this.sortCommits();
   }
   async getUser(username) {
     const usersObj = await fetchUser(username);
     this.setState(prevState => ({
       users: { ...prevState.users, [usersObj.login]: usersObj },
-      allIds: [...prevState.allIds, usersObj.login]
+      // allIds: [...prevState.allIds, usersObj.login]
     }));
-    console.log(usersObj);
   }
   async getRepos(username) {
     const reposObj = await fetchRepos(username);
     this.setState(prevState => ({
       repos: { ...prevState.repos, [username]: reposObj }
     }));
-    console.log(reposObj);
   }
   async getCommits(username, reponame) {
     const commitObj = await fetchCommits(username, reponame);
     this.setState(prevState => ({
       commits: { ...prevState.commits, [reponame]: commitObj }
     }));
-    console.log(this.state.commits);
+  }
+  sortCommits() {
+    return this.state.commits[this.state.repo].map(commit => {
+      console.log(commit);
+      return commit;
+    })
+    .sort((a, b) => {
+      console.log(a.commit);
+      const date1 = a.commit.author.date;
+      const date2 = b.commit.author.date;
+      return new Date(date1).getTime() - new Date(date2).getTime()
+    })
+    .reverse()
+    .slice(0, 10)
   }
   listCommits() {
-    return this.state.commits[this.state.repo].map(commit => (
+    const sortedCommits = this.sortCommits();
+    return sortedCommits.map(commit => (
       <div key={commit.sha}>
         {commit.commit.message}<br />
-        {commit.commit.author.name} commited {commit.commit.author.date}
+        {commit.commit.author.name} commited {commit.commit.author.date}<br /><br />
       </div>
     ))
   }
