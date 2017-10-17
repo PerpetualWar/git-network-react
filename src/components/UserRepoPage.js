@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import 'babel-polyfill';
+import moment from 'moment';
 import users from '../data/data';
 import UserInfo from './UserInfo';
 import { fetchUser, fetchRepos, fetchCommits } from '../data/fetchedData';
@@ -62,9 +63,12 @@ export default class UserRepoPage extends React.Component {
     return sortedCommits.map(commit => (
       <div key={commit.sha}>
         {commit.commit.message}<br />
-        {commit.commit.author.name} commited {commit.commit.author.date}<br /><br />
+        {commit.commit.author.name} commited {this.convertDate(commit.commit.author.date)} <br /><br />
       </div>
     ))
+  }
+  convertDate(date) {
+    return moment(date).locale('en').format('Do MMMM YYYY HH:mm:ss');
   }
   render() {
     return (
