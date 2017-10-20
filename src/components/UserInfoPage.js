@@ -14,7 +14,8 @@ export default class UserInfoPage extends React.Component {
     this.state = {
       users: {},
       username: this.props.match.params.username,
-      repos: {}
+      repos: {},
+      loading: false
     };
     this.getUser = this.getUser.bind(this);
     this.getRepos = this.getRepos.bind(this);
@@ -24,24 +25,28 @@ export default class UserInfoPage extends React.Component {
     this.getRepos(this.state.username);
   }
   async getUser(username) {
-    const usersObj = await fetchUser(username);
-    this.setState(prevState => ({
-      users: { ...prevState.users, [usersObj.login]: usersObj }
-    }));
-
+    const { data, status } = await fetchUser(username);
+    if (status === 200) {
+      this.setState(prevState => ({
+        users: { ...prevState.users, [data.login]: data }
+      }));
+    }
   }
   async getRepos(username) {
-    const reposObj = await fetchRepos(username);
-    this.setState(prevState => ({
-      repos: { ...prevState.repos, [username]: reposObj }
-    }));
-    console.log(this.state.repos);
+    this.setState({ loading: true });
+    const { data, status } = await fetchRepos(username);
+    if (status === 200) {
+      this.setState(prevState => ({
+        repos: { ...prevState.repos, [username]: data },
+        loading: false
+      }));
+    }
   }
   listRepos() {
     return this.state.repos[this.state.username].map(repo => (
       <div key={repo.id}>
         <div >
-        <Link to={'/' + repo.full_name}>{repo.full_name}</Link>
+          <Link to={'/' + repo.full_name}>{repo.full_name}</Link>
           <br />
           {repo.description} <br /><br />
         </div>
@@ -52,7 +57,11 @@ export default class UserInfoPage extends React.Component {
     return (
       <div className="container">
         <div>
-          {!_.isEmpty(this.state.users[this.state.username]) ? <UserInfo user={this.state.users[this.state.username]} /> : null}
+          {!_.isEmpty(this.state.users[this.state.username]) &&
+            <UserInfo
+              user={this.state.users[this.state.username]}
+              location={this.props.location} />
+          }
         </div>
         <div className="clearfix">
           <div className="pull-left">
@@ -63,9 +72,16 @@ export default class UserInfoPage extends React.Component {
           </div>
         </div>
         <div className="panel">
-          {!_.isEmpty(this.state.repos[this.state.username]) ? this.listRepos() : null}
+          {this.state.loading ?
+            <div className="text-center">
+              <i className="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+              <span className="sr-only">Loading...</span>
+            </div> :
+            <div>
+              {!_.isEmpty(this.state.repos[this.state.username]) && this.listRepos()}
+            </div>
+          }
         </div>
-
       </div>
     );
   }

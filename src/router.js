@@ -4,7 +4,7 @@ import HomePage from './components/HomePage';
 import UserInfoPage from './components/UserInfoPage';
 import UserRepoPage from './components/UserRepoPage';
 
-const routes = (
+export const routes = (
   <BrowserRouter className="container">
     <Switch>
       <Route path='/' component={HomePage} exact={true}/>
@@ -13,5 +13,3 @@ const routes = (
     </Switch>
   </BrowserRouter>
 );
-
-export default routes;

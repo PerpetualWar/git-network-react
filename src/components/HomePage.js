@@ -30,16 +30,16 @@ export default class HomePage extends React.Component {
   //     });
   // }
   async getUser(username) {
-    const usersObj = await fetchUser(username);
+    const { data, status } = await fetchUser(username);
     this.setState(prevState => ({
-      users: { ...prevState.users, [usersObj.login]: usersObj }
+      users: { ...prevState.users, [data.login]: data }
     }));
   }
   listUsers() {
     const { users } = this.state;
+    const { location } = this.props;
     const usersKeys = Object.keys(users);
-    console.log(users);
-    return usersKeys.map(username => <UserInfo key={users[username].id} user={users[username]} />)
+    return usersKeys.map(username => <UserInfo key={users[username].id} user={users[username]} location={location} />)
   }
   render() {
     return (
