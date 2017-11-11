@@ -8,15 +8,15 @@ import { addUserAsync, addReposAsync, addCommitsAsync } from './actions/actions'
 let reducer = combineReducers(reducers);
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(reducer, {}, composeEnhancers(
+export const store = createStore(reducer, {}, composeEnhancers(
   applyMiddleware(thunk, logger)));
 
-console.log(store.getState());
+// console.log(store.getState());
 
-store.dispatch(addUserAsync('PerpetualWar'))
-store.dispatch(addUserAsync('dhh'))
-store.dispatch(addReposAsync('PerpetualWar'))
-store.dispatch(addCommitsAsync('PerpetualWar', 'git-network'))
+// store.dispatch(addUserAsync('PerpetualWar'))
+// store.dispatch(addUserAsync('dhh'))
+// store.dispatch(addReposAsync('PerpetualWar'))
+// store.dispatch(addCommitsAsync('PerpetualWar', 'git-network'))
 // store.dispatch(addReposAsync('dhh'))
 // store.dispatch(addReposAsync('vue'))
 
