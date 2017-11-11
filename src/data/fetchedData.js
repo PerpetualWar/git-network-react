@@ -3,10 +3,10 @@ import 'babel-polyfill';
 
 export const fetchUser = async username => {
   try {
-    const { data, status } = await axios.get('https://api.github.com/users/' + username)
-    return { data, status };
+    const { data, status } = await axios.get('https://api.github.com/users/' + username);
+    return { data , status };
   } catch (e) {
-    return { status, data: null };
+    return { status, data: {} };
   }
 }
 export const fetchRepos = async username => {
@@ -14,7 +14,7 @@ export const fetchRepos = async username => {
     const { data, status } = await axios.get('https://api.github.com/users/' + username + '/repos');
     return { data, status };
   } catch (e) {
-    return { status, data: null };
+    return { status, data: {} };
   }
 }
 export const fetchCommits = async (username, reponame) => {
@@ -22,6 +22,6 @@ export const fetchCommits = async (username, reponame) => {
     const { data, status } = await axios.get('https://api.github.com/repos/' + username + '/' + reponame + '/commits');
     return { data, status };
   } catch (e) {
-    return { status, data: null };
+    return { status, data: {} };
   }
 }
